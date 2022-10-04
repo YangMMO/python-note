@@ -35,7 +35,7 @@ class TextFileReader(FileReader):
 
 class JsonFileReader(FileReader):
     def __init__(self, path):
-        self.path = path        # 定义成员变量记录文件的路径
+        self.path = path
 
     def read_data(self) -> list[Record]:
         f = open(self.path, "r", encoding="UTF-8")
@@ -51,6 +51,26 @@ class JsonFileReader(FileReader):
         return record_list
 
 
+class SQLTupleReader(FileReader):
+    def __init__(self, tup):
+        self.tuple = tup        # 定义成员变量记录文件的路径
+
+    def read_data(self) -> list[Record]:
+        record_list: list[Record] = []
+        for line in self.tuple:
+            data_dist = dict()
+
+            data_dist['date'] = str(line[0])
+            data_dist['order_id'] = str(line[1])
+            data_dist['money'] = int(line[2])
+            data_dist['province'] = str(line[3])
+
+            json_data = json.dumps(data_dist)
+            print(json_data)
+
+            record_list.append(json_data)
+
+        return record_list
 
 
 if __name__ == '__main__':
